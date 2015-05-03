@@ -53,7 +53,7 @@ public class KafkaConsumer {
       List<KafkaStream<byte[], byte[]>> streams = consumerMap.get(topic);
 
       // launch threads
-      executor = Executors.newFixedThreadPool(a_numThreads);
+      executor = Executors.newFixedThreadPool(threads);
 
       // now create an object to consume the messages
       int threadNumber = 0;
