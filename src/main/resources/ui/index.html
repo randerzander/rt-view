@@ -1,0 +1,38 @@
+<link href="ui/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+<center>
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+      <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        Query
+      </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+    <div class="panel-body">
+      <textarea rows="6" cols="75" id="txtquery"></textarea><p><p>
+      <button id="submit" type="button" class="btn btn-default" data-loading-text="Executing query.." autocomplete="off">Submit</button>
+   </div>
+  </div>
+</div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h4 class="panel-title">
+        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Results
+        </a>
+        <div class="pull-right hidden" id="csvlink"></div>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+      <div class="panel-body">
+        <table id="rows" class="table table-striped table-bordered table-hover"><thead><tr></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+  </div>
+</div>
+</center>
+<script src="ui/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="ui/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="ui/index.js"></script>
