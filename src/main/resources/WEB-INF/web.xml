@@ -23,15 +23,17 @@ limitations under the License. Kerberos, LDAP, Custom. Binary/Htt
          version="2.4">
 
     <display-name>example</display-name>
-    <description>
-        This is the Example servlet view application.
-    </description>
+    <description>View for dealing with RealTime data from Kafka and Phoenix</description>
     <welcome-file-list>
       <welcome-file>ui/index.html</welcome-file>
     </welcome-file-list>
     <servlet>
       <servlet-name>services</servlet-name>
-      <servlet-class>com.github.randerzander.view.Services</servlet-class>
+      <servlet-class>com.github.randerzander.view.services</servlet-class>
+    </servlet>
+    <servlet>
+      <servlet-name>sockets</servlet-name>
+      <servlet-class>com.github.randerzander.view.Sockets</servlet-class>
     </servlet>
     <servlet-mapping>
       <servlet-name>services</servlet-name>
@@ -43,20 +45,4 @@ limitations under the License. Kerberos, LDAP, Custom. Binary/Htt
       <url-pattern>/</url-pattern>
       <url-pattern>/ui/*</url-pattern>
     </servlet-mapping>
-    <!--
-    <servlet>
-        <servlet-name>example</servlet-name>
-        <servlet-class>com.github.randerzander.view.ServletExample</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>example</servlet-name>
-        <url-pattern>/services/*</url-pattern>
-        <url-pattern>/services</url-pattern>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>/ui/*</url-pattern>
-    </servlet-mapping>
-    -->
 </web-app>

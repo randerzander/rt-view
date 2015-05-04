@@ -1,8 +1,8 @@
 package com.github.randerzander.view;
 
-import com.github.randerzander.view.KafkaConsumer;
-
 import org.apache.ambari.view.ViewContext;
+
+import org.json.JSONObject;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -11,37 +11,99 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.util.ArrayList;
+import java.sql.*;
+
 import java.io.BufferedReader;
+import java.util.Properties;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.UUID;
 
 public class Services extends HttpServlet {
     private ViewContext viewContext;
-    private KafkaConsumer consumer;
+    private Connection connection;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
       super.init(config);
+
       ServletContext context = config.getServletContext();
       viewContext = (ViewContext) context.getAttribute(ViewContext.CONTEXT_ATTRIBUTE);
 
-      System.err.println("INITING RT-VIEW!");
+      String host = null;
+      try {
+        Properties properties = new Properties();
+        InputStream stream = getClass().getClassLoader().getResourceAsStream("config.properties");
+        properties.load(stream);
+        host = properties.getProperty("hive.host");
+      } catch(java.io.IOException e) { e.printStackTrace(); System.exit(1); }
 
-      consumer = new KafkaConsumer("seregiondev01:2181", UUID.randomUUID().toString(), "syslog");
-      consumer.run(1);
-      
-      System.err.println("RAN KAFKATHREAD!");
+      try {
+        Class.forName("org.apache.hive.jdbc.HiveDriver");
+        Class.forName("org.apache.phoenix.jdbc.PhoenixDriver");
+      } catch (ClassNotFoundException ex) {
+        System.out.println("Error: unable to load driver class!");
+        System.exit(1);
+      }
+      try {
+        //connection = DriverManager.getConnection("jdbc:hive2://" + host + "/default", "", "");
+        connection = DriverManager.getConnection("jdbc:phoenix://seregiondev01:2181,seregiondev02:2181,seregiondev03:2181:/hbase-unsecure", "", "");
+      } catch (SQLException e) { e.printStackTrace(); }
+    }
 
-      try { Thread.sleep(10000); }
-      catch (Exception e) { e.printStackTrace(); }
-      consumer.shutdown();
+    private String concatWS(String separator, String[] tokens){
+      StringBuilder ret = new StringBuilder();
+      for (String token : tokens){
+        if (ret.equals("")) ret.append(token);
+        else {
+          ret.append(separator);
+          ret.append(token);
+        }
+      }
+      return ret.toString();
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+      //Read request body and build Hive query
+      BufferedReader reader = request.getReader();
+      StringBuilder builder = new StringBuilder();
+      String line;
+      while( (line = reader.readLine()) != null){ builder.append(line); }
+      String query = builder.toString();
 
+      JSONObject json = new JSONObject();
+      json.put("query", query);
+
+      //JDBC driver doesn't like semicolons -- remove it if necessary
+      if (query.length() > 0 && query.charAt(query.length()-1)==';') {
+        query = query.substring(0, query.length()-1);
+      }
+
+      //Run the query and build the response
+      PrintWriter writer = response.getWriter();
+      ArrayList<String[]> rows = new ArrayList<String[]>();
+      try {
+        ResultSet res = connection.createStatement().executeQuery(query);
+        
+        //Write column headers
+        ResultSetMetaData rms = res.getMetaData();
+        String[] cols = new String[rms.getColumnCount()];
+        for (int i=0; i < cols.length; i++){ cols[i] = rms.getColumnName(i+1);}
+        json.put("columns", cols);
+
+        //Write each row from the result set
+        while (res.next()) {
+          String[] row = new String[cols.length];
+          for (int i=0; i < cols.length; i++){ row[i] = res.getString(i+1); }
+          rows.add(row);
+        }
+      }catch (SQLException e) {
+        json.put("columns", new String[]{"Error"});
+        rows.add(new String[]{e.toString()});
+      }
+      json.put("result", rows);
+      writer.println(json.toString());
     }
-
 }
