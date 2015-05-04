@@ -1,7 +1,5 @@
 package com.github.randerzander.view;
 
-import com.github.randerzander.view.ConsumerTest;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
@@ -14,6 +12,8 @@ import java.util.concurrent.TimeUnit;
 import kafka.consumer.ConsumerConfig;
 import kafka.consumer.KafkaStream;
 import kafka.javaapi.consumer.ConsumerConnector;
+import kafka.consumer.ConsumerIterator;
+import kafka.consumer.KafkaStream;
 
 public class KafkaConsumer {
     //Kafka consumer
@@ -58,8 +58,27 @@ public class KafkaConsumer {
       // now create an object to consume the messages
       int threadNumber = 0;
       for (final KafkaStream stream : streams) {
-        executor.submit(new ConsumerTest(stream, threadNumber));
+        executor.submit(new Consumer(stream, threadNumber));
         threadNumber++;
       }
+    }
+
+    private class Consumer implements Runnable {
+        private KafkaStream m_stream;
+        private int m_threadNumber;
+     
+        public Consumer(KafkaStream a_stream, int a_threadNumber) {
+            m_threadNumber = a_threadNumber;
+            m_stream = a_stream;
+        }
+     
+        public void run() {
+            ConsumerIterator<byte[], byte[]> it = m_stream.iterator();
+            while (it.hasNext()){
+                System.err.println("NEW MESSAGE!!!");
+                System.out.println("Thread " + m_threadNumber + ": " + new String(it.next().message()));
+            }
+            System.out.println("Shutting down Thread: " + m_threadNumber);
+        }
     }
 }

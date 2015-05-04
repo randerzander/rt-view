@@ -29,7 +29,7 @@ limitations under the License. Kerberos, LDAP, Custom. Binary/Htt
     </welcome-file-list>
     <servlet>
       <servlet-name>services</servlet-name>
-      <servlet-class>com.github.randerzander.view.services</servlet-class>
+      <servlet-class>com.github.randerzander.view.Services</servlet-class>
     </servlet>
     <servlet>
       <servlet-name>sockets</servlet-name>

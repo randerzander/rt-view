@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.util.ArrayList;
 import java.sql.*;
+import org.apache.phoenix.jdbc.PhoenixDriver;
 
 import java.io.BufferedReader;
 import java.util.Properties;
@@ -31,14 +32,6 @@ public class Services extends HttpServlet {
       ServletContext context = config.getServletContext();
       viewContext = (ViewContext) context.getAttribute(ViewContext.CONTEXT_ATTRIBUTE);
 
-      String host = null;
-      try {
-        Properties properties = new Properties();
-        InputStream stream = getClass().getClassLoader().getResourceAsStream("config.properties");
-        properties.load(stream);
-        host = properties.getProperty("hive.host");
-      } catch(java.io.IOException e) { e.printStackTrace(); System.exit(1); }
-
       try {
         Class.forName("org.apache.hive.jdbc.HiveDriver");
         Class.forName("org.apache.phoenix.jdbc.PhoenixDriver");
@@ -48,7 +41,8 @@ public class Services extends HttpServlet {
       }
       try {
         //connection = DriverManager.getConnection("jdbc:hive2://" + host + "/default", "", "");
-        connection = DriverManager.getConnection("jdbc:phoenix://seregiondev01:2181,seregiondev02:2181,seregiondev03:2181:/hbase-unsecure", "", "");
+        //connection = DriverManager.getConnection("jdbc:phoenix://seregiondev01:2181,seregiondev02:2181,seregiondev03:2181:/hbase-unsecure", "", "");
+        connection = DriverManager.getConnection("jdbc:phoenix:seregiondev01:2181:/hbase-unsecure", "", "");
       } catch (SQLException e) { e.printStackTrace(); }
     }
 
