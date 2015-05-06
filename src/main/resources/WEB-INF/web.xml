@@ -41,6 +41,11 @@ limitations under the License. Kerberos, LDAP, Custom. Binary/Htt
       <url-pattern>/services</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+      <servlet-name>sockets</servlet-name>
+      <url-pattern>/sockets/</url-pattern>
+      <url-pattern>/sockets</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
       <servlet-name>default</servlet-name>
       <url-pattern>/</url-pattern>
       <url-pattern>/ui/*</url-pattern>
