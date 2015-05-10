@@ -8,10 +8,13 @@ import javax.servlet.ServletContextListener;
 
 import javax.servlet.annotation.WebServlet;
 import org.eclipse.jetty.websocket.servlet.WebSocketServlet;
+//import org.eclipse.jetty.websocket.servlet.WebSocketServerFactory;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
-//import org.eclipse.jetty.websocket.api.Session;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
 
+/*
 import javax.websocket.ClientEndpoint;
 import javax.websocket.CloseReason;
 import javax.websocket.OnClose;
@@ -20,6 +23,7 @@ import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
+*/
 
 import java.util.UUID;
 import java.util.HashMap;
@@ -36,7 +40,7 @@ import kafka.javaapi.consumer.ConsumerConnector;
 import kafka.consumer.ConsumerIterator;
 import kafka.consumer.KafkaStream;
 
-//@WebServlet(name = "WebSocket Servlet", urlPatterns = { "/sockets" })
+@WebServlet(name = "WebSocket Servlet", urlPatterns = { "/sockets" })
 public class Sockets extends WebSocketServlet {
     private ViewContext viewContext;
     private Properties props;
@@ -60,28 +64,28 @@ public class Sockets extends WebSocketServlet {
         factory.register(EventSocket.class);
     }
 
-    //@WebSocket
-    @ClientEndpoint
-    @ServerEndpoint(value="/sockets")
+    @WebSocket
+    //@ClientEndpoint
+    //@ServerEndpoint(value="/sockets")
     public class EventSocket {
       private Session session;
-      //@OnWebSocketMessage
-      @OnMessage
-      //public void onWebSocketMessage(Session session, String message){
-      public void onWebSocketMessage(String message){
+      @OnWebSocketMessage
+      //@OnMessage
+      public void onWebSocketMessage(Session session, String message){
+      //public void onWebSocketMessage(String message){
         System.out.println("SOCKET got TEXT message: " + message + ", from " + session);
-        run(this.session, message);
+        run(session, message);
       }
       
-      //@OnWebSocketConnect
-      @OnOpen
+      @OnWebSocketConnect
+      //@OnOpen
       public void onWebSocketConnect(Session session){ System.out.println("SOCKET Connected: " + session); this.session = session; }
-      //@OnWebSocketClose
-      @OnClose
-      //public void onWebSocketClose(Session session, int code, String reason){ System.out.println("SOCKET Closed: " + reason); }
-      public void onWebSocketClose(CloseReason reason){ System.out.println("SOCKET Closed: " + reason); }
-      //@OnWebSocketError
-      @OnError
+      @OnWebSocketClose
+      //@OnClose
+      public void onWebSocketClose(Session session, int code, String reason){ System.out.println("SOCKET Closed: " + reason); }
+      //public void onWebSocketClose(CloseReason reason){ System.out.println("SOCKET Closed: " + reason); }
+      @OnWebSocketError
+      //@OnError
       public void onWebSocketError(Throwable cause){ cause.printStackTrace(System.err); }
     }
 
@@ -104,8 +108,8 @@ public class Sockets extends WebSocketServlet {
         while(true){
           try{
             while (it.hasNext())
-              //session.getRemote().sendString(new String(it.next().message()));
-              session.getBasicRemote().sendText(new String(it.next().message()));
+              session.getRemote().sendString(new String(it.next().message()));
+              //session.getBasicRemote().sendText(new String(it.next().message()));
             Thread.sleep(300);
           }catch (Exception e) { e.printStackTrace(); return; }
         }

@@ -10,4 +10,5 @@ sudo rm -rf /var/lib/ambari-server/resources/views/work/RT*
 sudo rm -rf /var/lib/ambari-server/resources/views/rt-*.jar
 sudo cp target/*-SNAPSHOT-view.jar /var/lib/ambari-server/resources/views/
 #sudo cp target/*-SNAPSHOT.jar /var/lib/ambari-server/resources/views/
+sudo rm /var/log/ambari-server/ambari-server.log
 sudo service ambari-server restart
