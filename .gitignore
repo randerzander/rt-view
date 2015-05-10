@@ -1,5 +1,6 @@
 *.sh
 *.swp
+*-pom.xml
 target/
 src/main/resources/ui/bower_components/
 src/main/resources/WEB-INF/lib/
