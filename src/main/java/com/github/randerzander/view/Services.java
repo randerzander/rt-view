@@ -16,6 +16,7 @@ import java.sql.*;
 import org.apache.phoenix.jdbc.PhoenixDriver;
 
 import java.io.BufferedReader;
+import java.util.Map;
 import java.util.Properties;
 import java.io.InputStream;
 import java.io.IOException;
@@ -39,7 +40,8 @@ public class Services extends HttpServlet {
         System.exit(1);
       }
       try {
-        connection = DriverManager.getConnection("jdbc:phoenix:seregiondev01:2181:/hbase-unsecure", "", "");
+        Map<String, String> viewProps = this.viewContext.getProperties();
+        connection = DriverManager.getConnection(viewProps.get("jdbc.url"), "", "");
       } catch (SQLException e) { e.printStackTrace(); }
     }
 

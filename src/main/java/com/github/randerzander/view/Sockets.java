@@ -38,13 +38,15 @@ public class Sockets {
     private ExecutorService executor;
 
     public void init(ViewContext context) {
-      Properties props = new Properties();
-      props.put("zookeeper.connect", "seregiondev01:2181,seregiondev02:2181,seregiondev03:2181");
-      props.put("group.id", UUID.randomUUID().toString());
-      props.put("zookeeper.session.timeout.ms", "400");
-      props.put("zookeeper.sync.time.ms", "200");
-      props.put("auto.commit.interval.ms", "1000");
-      consumer = kafka.consumer.Consumer.createJavaConsumerConnector(new ConsumerConfig(props));
+        Map<String, String> viewProps = context.getProperties();
+
+        Properties props = new Properties();
+        props.put("zookeeper.connect", viewProps.get("zookeeper.connect"));
+        props.put("group.id", UUID.randomUUID().toString());
+        props.put("zookeeper.session.timeout.ms", "400");
+        props.put("zookeeper.sync.time.ms", "200");
+        props.put("auto.commit.interval.ms", "1000");
+        consumer = kafka.consumer.Consumer.createJavaConsumerConnector(new ConsumerConfig(props));
     }
 
     @OnMessage
