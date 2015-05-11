@@ -33,15 +33,12 @@ public class Services extends HttpServlet {
       viewContext = (ViewContext) context.getAttribute(ViewContext.CONTEXT_ATTRIBUTE);
 
       try {
-        Class.forName("org.apache.hive.jdbc.HiveDriver");
         Class.forName("org.apache.phoenix.jdbc.PhoenixDriver");
       } catch (ClassNotFoundException ex) {
         System.out.println("Error: unable to load driver class!");
         System.exit(1);
       }
       try {
-        //connection = DriverManager.getConnection("jdbc:hive2://" + host + "/default", "", "");
-        //connection = DriverManager.getConnection("jdbc:phoenix://seregiondev01:2181,seregiondev02:2181,seregiondev03:2181:/hbase-unsecure", "", "");
         connection = DriverManager.getConnection("jdbc:phoenix:seregiondev01:2181:/hbase-unsecure", "", "");
       } catch (SQLException e) { e.printStackTrace(); }
     }
