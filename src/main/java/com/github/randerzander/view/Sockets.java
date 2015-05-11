@@ -5,11 +5,11 @@ import org.apache.ambari.view.ViewContext;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextListener;
-
 import javax.servlet.annotation.WebServlet;
+
+import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.websocket.servlet.WebSocketServlet;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
-import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
 
@@ -30,18 +30,14 @@ import kafka.consumer.KafkaStream;
 
 @WebServlet(name = "WebSocket Servlet", urlPatterns = { "/sockets" })
 public class Sockets extends WebSocketServlet {
-    private ViewContext viewContext;
-    private Properties props;
-
     private ConsumerConnector consumer;
     private ExecutorService executor;
-    private Session session;
 
     @Override
     public void configure(WebSocketServletFactory factory) {
         ServletContext context = super.getServletContext();
-        viewContext = (ViewContext) context.getAttribute(ViewContext.CONTEXT_ATTRIBUTE);
-        Map<String, String> viewProps = this.viewContext.getProperties();
+        ViewContext viewContext = (ViewContext) context.getAttribute(ViewContext.CONTEXT_ATTRIBUTE);
+        Map<String, String> viewProps = viewContext.getProperties();
 
         Properties props = new Properties();
         props.put("zookeeper.connect", viewProps.get("zookeeper.connect"));
@@ -57,7 +53,6 @@ public class Sockets extends WebSocketServlet {
 
     @WebSocket
     public class EventSocket {
-      private Session session;
       @OnWebSocketMessage
       public void onMessage(Session session, String message){
         System.out.println("SOCKET got TEXT message: " + message + ", from " + session);
@@ -70,7 +65,7 @@ public class Sockets extends WebSocketServlet {
       }
       
       @OnWebSocketConnect
-      public void onConnect(Session session){ System.out.println("SOCKET Connected: " + session); this.session = session; }
+      public void onConnect(Session session){ System.out.println("SOCKET Connected: " + session); }
       @OnWebSocketClose
       public void onClose(Session session, int code, String reason){ System.out.println("SOCKET Closed: " + reason); }
       @OnWebSocketError
