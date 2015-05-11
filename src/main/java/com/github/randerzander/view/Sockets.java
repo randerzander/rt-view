@@ -41,10 +41,10 @@ public class Sockets extends WebSocketServlet {
     public void configure(WebSocketServletFactory factory) {
         ServletContext context = super.getServletContext();
         viewContext = (ViewContext) context.getAttribute(ViewContext.CONTEXT_ATTRIBUTE);
+        Map<String, String> viewProps = this.viewContext.getProperties();
 
         Properties props = new Properties();
-        //TODO: get props from viewContext instead
-        props.put("zookeeper.connect", "seregiondev01:2181,seregiondev02:2181,seregiondev03:2181");
+        props.put("zookeeper.connect", viewProps.get("zookeeper.connect"));
         props.put("group.id", UUID.randomUUID().toString());
         props.put("zookeeper.session.timeout.ms", "400");
         props.put("zookeeper.sync.time.ms", "200");
@@ -88,7 +88,6 @@ public class Sockets extends WebSocketServlet {
           try{
             while (it.hasNext())
               session.getRemote().sendString(new String(it.next().message()));
-              //session.getBasicRemote().sendText(new String(it.next().message()));
             Thread.sleep(300);
           }catch (Exception e) { e.printStackTrace(); return; }
         }

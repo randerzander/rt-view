@@ -18,4 +18,24 @@ limitations under the License. Kerberos, LDAP, Custom. Binary/Htt
     <name>RT</name>
     <label>RT</label>
     <version>0.1.0</version>
+    <resource>
+      <name>sockets</name>
+      <service-class>com.github.randerzander.view.Sockets</service-class>
+    </resource>
+    <parameter>
+      <name>zookeeper.connect</name>
+      <description>ZooKeeper Quorum List</description>
+      <label>ZooKeeper Quorum List</label>
+      <default-value>seregiondev01:2181,seregiondev02:2181,seregiondev03:2181</default-value>
+      <placeholder>localhost:2181</placeholder>
+      <required>true</required>
+    </parameter>
+    <parameter>
+      <name>jdbc.url</name>
+      <description>JDBC Connection string for Apache Phoenix</description>
+      <label>JDBC Connection string for Apache Phoenix</label>
+      <default-value>jdbc:phoenix:seregiondev01:2181:/hbase-unsecure</default-value>
+      <placeholder>jdbc:phoenix:localhost:2181:/hbase-unsecure</placeholder>
+      <required>true</required>
+    </parameter>
 </view>
