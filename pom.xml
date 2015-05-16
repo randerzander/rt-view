@@ -13,6 +13,11 @@
         <id>hortonworks</id>
         <url>http://repo.hortonworks.com/content/repositories/releases/</url>
       </repository>   
+     <repository>
+        <id>repo.hortonworks.com-jetty</id>
+        <name>Hortonworks Jetty Maven Repository</name>
+        <url>http://repo.hortonworks.com/content/repositories/jetty-hadoop/</url>
+      </repository>
       <repository>
         <id>apache</id>
         <url>http://repository.apache.org/content/repositories/releases/</url>
@@ -45,10 +50,6 @@
           <artifactId>phoenix-core</artifactId>
           <version>${phoenix.version}</version>
           <exclusions>
-            <exclusion>
-              <groupId>org.mortbay.jetty</groupId>
-              <artifactId>jetty-util</artifactId>
-            </exclusion>
             <exclusion>
               <groupId>org.slf4j</groupId>
               <artifactId>log4j-over-slf4j</artifactId>

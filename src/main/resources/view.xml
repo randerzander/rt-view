@@ -26,7 +26,7 @@ limitations under the License. Kerberos, LDAP, Custom. Binary/Htt
       <name>zookeeper.connect</name>
       <description>ZooKeeper Quorum List</description>
       <label>ZooKeeper Quorum List</label>
-      <default-value>seregiondev01:2181,seregiondev02:2181,seregiondev03:2181</default-value>
+      <default-value>localhost:2181</default-value>
       <placeholder>localhost:2181</placeholder>
       <required>true</required>
     </parameter>
@@ -34,7 +34,7 @@ limitations under the License. Kerberos, LDAP, Custom. Binary/Htt
       <name>jdbc.url</name>
       <description>JDBC Connection string for Apache Phoenix</description>
       <label>JDBC Connection string for Apache Phoenix</label>
-      <default-value>jdbc:phoenix:seregiondev01:2181:/hbase-unsecure</default-value>
+      <default-value>jdbc:phoenix:localhost:2181:/hbase-unsecure</default-value>
       <placeholder>jdbc:phoenix:localhost:2181:/hbase-unsecure</placeholder>
       <required>true</required>
     </parameter>
