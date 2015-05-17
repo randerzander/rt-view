@@ -12,6 +12,7 @@ import org.eclipse.jetty.websocket.servlet.WebSocketServlet;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
+import org.eclipse.jetty.webapp.WebAppContext;
 
 import java.util.UUID;
 import java.util.HashMap;
@@ -28,7 +29,6 @@ import kafka.javaapi.consumer.ConsumerConnector;
 import kafka.consumer.ConsumerIterator;
 import kafka.consumer.KafkaStream;
 
-@WebServlet(name = "WebSocket Servlet", urlPatterns = { "/sockets" })
 public class Sockets extends WebSocketServlet {
     private ConsumerConnector consumer;
     private ExecutorService executor;
