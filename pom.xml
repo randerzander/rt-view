@@ -26,8 +26,8 @@
 
     <properties>
       <ambari.version>2.0.0.0</ambari.version>
-      <kafka.version>0.8.1.2.2.0.0-2041</kafka.version>
       <phoenix.version>4.2.0.2.2.0.0-2041</phoenix.version>
+      <kafka.version>0.8.1.2.2.0.0-2041</kafka.version>
       <jetty.version>9.2.10.v20150310</jetty.version>
     </properties>
 
@@ -37,12 +37,6 @@
           <groupId>org.apache.ambari</groupId>
           <artifactId>ambari-views</artifactId>
           <version>${ambari.version}</version>
-        </dependency>
-
-        <dependency>
-          <groupId>org.apache.kafka</groupId>
-          <artifactId>kafka_2.10</artifactId>
-          <version>${kafka.version}</version>
         </dependency>
 
         <dependency>
@@ -59,6 +53,26 @@
               <artifactId>slf4j-log4j12</artifactId>
             </exclusion>
           </exclusions>
+        </dependency>
+
+        <dependency>
+          <groupId>javax.servlet</groupId>
+          <artifactId>servlet-api</artifactId>
+          <version>2.5</version>
+          <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+          <groupId>org.json</groupId>
+          <artifactId>json</artifactId>
+          <version>20140107</version>
+       </dependency>
+
+        <!--
+        <dependency>
+          <groupId>org.apache.kafka</groupId>
+          <artifactId>kafka_2.10</artifactId>
+          <version>${kafka.version}</version>
         </dependency>
 
         <dependency>
@@ -85,20 +99,7 @@
           <artifactId>jetty-util</artifactId>
           <version>${jetty.version}</version>
         </dependency>
-
-
-        <dependency>
-          <groupId>javax.servlet</groupId>
-          <artifactId>servlet-api</artifactId>
-          <version>2.5</version>
-          <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-          <groupId>org.json</groupId>
-          <artifactId>json</artifactId>
-          <version>20140107</version>
-       </dependency>
+        -->
 
     </dependencies>
 

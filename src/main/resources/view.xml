@@ -18,10 +18,12 @@ limitations under the License. Kerberos, LDAP, Custom. Binary/Htt
     <name>RT</name>
     <label>RT</label>
     <version>0.1.0</version>
+    <!--
     <resource>
       <name>sockets</name>
       <service-class>com.github.randerzander.view.Sockets</service-class>
     </resource>
+    -->
     <parameter>
       <name>zookeeper.connect</name>
       <description>ZooKeeper Quorum List</description>

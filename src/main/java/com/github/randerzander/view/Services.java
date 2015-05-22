@@ -33,6 +33,7 @@ public class Services extends HttpServlet {
       ServletContext context = config.getServletContext();
       viewContext = (ViewContext) context.getAttribute(ViewContext.CONTEXT_ATTRIBUTE);
 
+      System.err.println("Trying to start view!");
       try {
         Class.forName("org.apache.phoenix.jdbc.PhoenixDriver");
       } catch (ClassNotFoundException ex) {
