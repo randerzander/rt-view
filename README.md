@@ -7,7 +7,7 @@ sudo cp target/rt-view-1.0-SNAPSHOT-view.jar /var/lib/ambari-server/resources/vi
 sudo service ambari-server restart
 ```
 
-(/sshots/dashboard.png)
+![RT View](/sshots/dashboard.png?raw=true)
 
 To manually build and deploy this project, you'll need maven, and bower (npm install -g brunch) installed.
 ```
