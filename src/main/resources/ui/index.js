@@ -41,14 +41,12 @@ setInterval(function() {
           g = 255-series*15 % 255;
           b = 255-series * 3 % 255;
           rgb = 'rgb('+r+','+g+','+b+')';
-debugger;
           chart.addTimeSeries(metrics[name], {
             strokeStyle: rgb,
             fillStyle: rgb.replace('rgb', 'rgba').replace(')', ',.1)'),
             lineWidth: 1 }
           );
           newHtml = '<tr>'+cell(host,rgb)+cell(facility,rgb)+cell(metric,rgb)+'</tr>';
-debugger;
           $('#legend tr:last').after(newHtml);
         }
       });
