@@ -1,5 +1,7 @@
 An example of an Ambari View with a simple UI for polling Phoenix and displaying realtime metrics.
 
+[demo clip](https://www.dropbox.com/s/qggm90ytfsbc8kp/RT%20view%20demo.mov?dl=0), thanks [Neeraj](https://github.com/nsabharwal)!
+
 To install the pre-built jar:
 ```
 cd rt-view/
